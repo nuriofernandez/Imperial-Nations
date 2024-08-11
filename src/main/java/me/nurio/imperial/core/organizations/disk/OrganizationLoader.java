@@ -57,7 +57,7 @@ public class OrganizationLoader {
             GrechAreas.getWorldAreaFactory().addWorldArea(worldArea);
             worldArea.save();
 
-            config.set("worldArea", worldArea.getUuid());
+            config.set("worldArea", worldArea.getUuid().toString());
             config.save();
         }
 

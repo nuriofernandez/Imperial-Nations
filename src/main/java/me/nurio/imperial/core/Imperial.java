@@ -6,6 +6,7 @@ import me.nurio.imperial.core.organizations.OrganizationFactory;
 import me.nurio.imperial.core.organizations.disk.OrganizationLoader;
 import me.nurio.imperial.core.protection.ProtectionPlayerListener;
 import me.nurio.imperial.core.welcome.join.PlayerJoinListener;
+import me.nurio.imperial.core.welcome.move.PlayerMoveListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,6 +30,7 @@ public class Imperial extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(organizationFactory), this);
         Bukkit.getPluginManager().registerEvents(new ProtectionPlayerListener(organizationFactory), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClaimListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
 
         // Send loaded message
         Bukkit.getLogger().info("Imperial is installed!");

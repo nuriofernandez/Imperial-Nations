@@ -2,6 +2,7 @@ package me.nurio.imperial.core.organizations;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import me.nurio.imperial.core.organizations.extensions.PlayerIsMember;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-public class Organization {
+public class Organization implements PlayerIsMember {
 
     @Getter @NotNull private UUID uuid;
     @Getter @NotNull private String name;

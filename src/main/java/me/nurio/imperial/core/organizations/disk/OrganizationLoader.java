@@ -3,10 +3,13 @@ package me.nurio.imperial.core.organizations.disk;
 import me.nurio.bukkit.configuration.files.GrechConfig;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.minecraft.worldareas.GrechAreas;
+import me.nurio.minecraft.worldareas.areas.WorldArea;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -48,7 +51,20 @@ public class OrganizationLoader {
             .map(Bukkit::getOfflinePlayer)
             .toList();
 
-        return new Organization(uuid, name, members);
+        // Load world area (create one if it doesn't exist)
+        if (!config.getConfig().isSet("worldArea")) {
+            WorldArea worldArea = new WorldArea(name, UUID.randomUUID(), new ArrayList<>());
+            GrechAreas.getWorldAreaFactory().addWorldArea(worldArea);
+            worldArea.save();
+
+            config.set("worldArea", worldArea.getUuid());
+            config.save();
+        }
+
+        UUID worldAreaId = UUID.fromString(config.getConfig().getString("worldArea"));
+        WorldArea worldArea = GrechAreas.getWorldAreaFactory().fromUuid(worldAreaId);
+
+        return new Organization(uuid, name, members, worldArea);
     }
 
 }

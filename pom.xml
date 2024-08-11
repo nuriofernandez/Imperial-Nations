@@ -55,6 +55,13 @@
         </dependency>
 
         <dependency>
+            <groupId>me.nurio</groupId>
+            <artifactId>grechareas</artifactId>
+            <version>1.3-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.30</version>

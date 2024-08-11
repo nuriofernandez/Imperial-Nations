@@ -1,4 +1,4 @@
-package me.nurio.imperial.core.welcome;
+package me.nurio.imperial.core.welcome.join;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;

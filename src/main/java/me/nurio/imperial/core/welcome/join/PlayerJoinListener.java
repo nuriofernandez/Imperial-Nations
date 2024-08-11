@@ -1,4 +1,4 @@
-package me.nurio.imperial.core.welcome;
+package me.nurio.imperial.core.welcome.join;
 
 import lombok.RequiredArgsConstructor;
 import me.nurio.imperial.core.organizations.Organization;

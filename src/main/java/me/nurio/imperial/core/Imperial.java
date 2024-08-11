@@ -5,7 +5,7 @@ import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import me.nurio.imperial.core.organizations.disk.OrganizationLoader;
 import me.nurio.imperial.core.protection.ProtectionPlayerListener;
-import me.nurio.imperial.core.welcome.PlayerJoinListener;
+import me.nurio.imperial.core.welcome.join.PlayerJoinListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;

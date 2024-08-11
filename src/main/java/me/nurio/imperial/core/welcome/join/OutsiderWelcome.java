@@ -1,4 +1,4 @@
-package me.nurio.imperial.core.welcome;
+package me.nurio.imperial.core.welcome.join;
 
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;

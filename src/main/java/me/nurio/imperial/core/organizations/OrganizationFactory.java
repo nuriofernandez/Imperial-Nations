@@ -1,6 +1,7 @@
 package me.nurio.imperial.core.organizations;
 
 import lombok.Getter;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -17,6 +18,12 @@ public class OrganizationFactory {
      */
     public void addOrganization(@NotNull Organization organization) {
         organizations.add(organization);
+    }
+
+    public List<Organization> fromPlayer(Player player) {
+        return organizations.stream()
+            .filter(organization -> organization.isMember(player))
+            .toList();
     }
 
 }

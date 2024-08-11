@@ -1,0 +1,9 @@
+main: me.nurio.imperial.core.Imperial
+name: Imperial
+version: '1.0'
+api-version: 1.21
+description: Imperial core functions
+load: POSTWORLD
+author: Nurio
+website: nurio.me
+prefix: Imperial

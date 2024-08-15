@@ -46,7 +46,7 @@ public class MessageSendAttempt {
     public void send(Player receiver) {
         Organization receiverOrganization = null;
         List<Organization> playerOrganizations = organizationFactory.fromPlayer(receiver);
-        if (playerOrganizations.isEmpty()) {
+        if (!playerOrganizations.isEmpty()) {
             receiverOrganization = playerOrganizations.getFirst();
         }
 

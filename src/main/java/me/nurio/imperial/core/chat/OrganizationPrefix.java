@@ -2,6 +2,7 @@ package me.nurio.imperial.core.chat;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.imperial.core.power.PowerCalculator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
@@ -16,6 +17,8 @@ public class OrganizationPrefix {
 
     private static Component getOrganization(Organization organization) {
         return Component.text("[")
+            .append(PowerPrefix.getPower(organization))
+            .appendSpace()
             .append(Component.text(organization.getName()).color(TextColor.color(255, 130, 0)))
             .append(Component.text("]"));
     }

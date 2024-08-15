@@ -1,7 +1,9 @@
 package me.nurio.imperial.core.areas;
 
+import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.minecraft.worldareas.areas.BlockArea;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -16,6 +18,7 @@ public class PlayerClaimListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlaceSpecialBlock(BlockPlaceEvent eve) {
         Material material = eve.getBlock().getType();
+
         if (!ClaimMaterials.isClaimingMaterial(material)) {
             return;
         }
@@ -37,6 +40,11 @@ public class PlayerClaimListener implements Listener {
         // If terrain already belongs to someone
         List<Organization> organizationsAtLoc = Imperial.getOrganizationFactory().fromLocation(location);
         if (!organizationsAtLoc.isEmpty()) {
+            return;
+        }
+
+        // Prevent creating two areas in the same place
+        if (AreaCenterUtil.isCloseToAnyCenter(organization, location)) {
             return;
         }
 

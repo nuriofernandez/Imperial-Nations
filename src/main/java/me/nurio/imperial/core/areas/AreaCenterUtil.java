@@ -16,6 +16,10 @@ public class AreaCenterUtil {
     }
 
     private static boolean isCloseToCenter(BlockArea area, Location location) {
+        return distanceToCenter(area, location) <= 25;
+    }
+
+    public static double distanceToCenter(BlockArea area, Location location) {
         Location start = area.getStart();
         Location end = area.getEnd();
 
@@ -26,8 +30,7 @@ public class AreaCenterUtil {
             (start.getZ()+end.getZ())/2
         );
 
-        double distance = location.distance(center);
-        return distance <= 25;
+        return location.distance(center);
     }
 
 }

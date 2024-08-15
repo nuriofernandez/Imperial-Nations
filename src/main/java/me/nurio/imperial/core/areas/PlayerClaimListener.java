@@ -48,6 +48,11 @@ public class PlayerClaimListener implements Listener {
             return;
         }
 
+        // If there is any other org close by
+        if (OrganizationDistance.isCloseToAnyOtherOrganization(organization, location)) {
+            return;
+        }
+
         // Execute claim
         ClaimManager.claim(location, material, organization);
     }

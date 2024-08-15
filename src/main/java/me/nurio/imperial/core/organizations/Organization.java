@@ -21,4 +21,6 @@ public class Organization implements PlayerIsMember, OnlineMembers {
 
     @Getter @NotNull private WorldArea worldArea;
 
+    @Getter @NotNull private int power;
+
 }

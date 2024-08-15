@@ -64,7 +64,13 @@ public class OrganizationLoader {
         UUID worldAreaId = UUID.fromString(config.getConfig().getString("worldArea"));
         WorldArea worldArea = GrechAreas.getWorldAreaFactory().fromUuid(worldAreaId);
 
-        return new Organization(uuid, name, members, worldArea);
+        // Load power
+        if (!config.getConfig().isSet("power")) {
+            config.set("power", 0);
+        }
+        int power = config.getConfig().getInt("power");
+
+        return new Organization(uuid, name, members, worldArea, power);
     }
 
 }

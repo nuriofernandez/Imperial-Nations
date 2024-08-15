@@ -20,6 +20,7 @@ public class PlayerClaimListener implements Listener {
             return;
         }
 
+        // If player is an outsider
         List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(eve.getPlayer());
         if (organizations.isEmpty()) {
             return;
@@ -32,6 +33,12 @@ public class PlayerClaimListener implements Listener {
 
         Organization organization = organizations.getFirst();
         Location location = eve.getBlock().getLocation();
+
+        // If terrain already belongs to someone
+        List<Organization> organizationsAtLoc = Imperial.getOrganizationFactory().fromLocation(location);
+        if (!organizationsAtLoc.isEmpty()) {
+            return;
+        }
 
         // Execute claim
         ClaimManager.claim(location, material, organization);

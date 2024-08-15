@@ -29,8 +29,15 @@ public class PermissionManager {
             return false;
         }
 
-        // Since world areas aren't implemented, only having state allows to.
-        return true;
+        // If there is no organization or for some reason, more than one.
+        List<Organization> organizationsAtLoc = organizationFactory.fromLocation(location);
+        if (organizationsAtLoc.size() != 1) {
+            return false;
+        }
+
+        // If player belongs to that organization
+        Organization locationOrganization = organizationsAtLoc.getFirst();
+        return organizations.contains(locationOrganization);
     }
 
 }

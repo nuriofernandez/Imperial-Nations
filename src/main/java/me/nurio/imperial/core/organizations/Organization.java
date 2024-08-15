@@ -2,6 +2,7 @@ package me.nurio.imperial.core.organizations;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import me.nurio.imperial.core.organizations.extensions.OnlineMembers;
 import me.nurio.imperial.core.organizations.extensions.PlayerIsMember;
 import me.nurio.minecraft.worldareas.areas.WorldArea;
@@ -21,6 +22,7 @@ public class Organization implements PlayerIsMember, OnlineMembers {
 
     @Getter @NotNull private WorldArea worldArea;
 
-    @Getter @NotNull private int power;
+    @Getter @Setter
+    @NotNull private int power;
 
 }

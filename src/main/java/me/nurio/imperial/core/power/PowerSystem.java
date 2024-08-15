@@ -3,6 +3,7 @@ package me.nurio.imperial.core.power;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
+import me.nurio.imperial.core.organizations.disk.OrganizationSaver;
 import org.bukkit.Bukkit;
 
 public class PowerSystem {
@@ -33,6 +34,10 @@ public class PowerSystem {
             Bukkit.getLogger().info(
                 "Organization '" + organization.getName() + "' has a power of '" + power + "'"
             );
+
+            // Save power to organization
+            organization.setPower(power);
+            OrganizationSaver.save(organization);
         }
 
         // Send a message indicating the operation has been done

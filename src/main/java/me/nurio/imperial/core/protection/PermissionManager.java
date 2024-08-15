@@ -32,6 +32,7 @@ public class PermissionManager {
         // If there is no organization or for some reason, more than one.
         List<Organization> organizationsAtLoc = organizationFactory.fromLocation(location);
         if (organizationsAtLoc.size() != 1) {
+            WildernessMessager.sendMessage(player);
             return false;
         }
 

@@ -4,12 +4,14 @@ import lombok.Getter;
 import me.nurio.imperial.core.areas.FirstClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
+import me.nurio.imperial.core.nether.NetherPortalListener;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import me.nurio.imperial.core.organizations.disk.OrganizationLoader;
 import me.nurio.imperial.core.power.PowerSystem;
 import me.nurio.imperial.core.protection.ProtectionPlayerListener;
 import me.nurio.imperial.core.welcome.join.PlayerJoinListener;
 import me.nurio.imperial.core.welcome.move.PlayerMoveListener;
+import me.nurio.imperial.core.worldborder.DynamicWorldBorder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,9 +38,11 @@ public class Imperial extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new FirstClaimListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(organizationFactory), this);
+        Bukkit.getPluginManager().registerEvents(new NetherPortalListener(), this);
 
         // Register Organization power system
         PowerSystem.start();
+        DynamicWorldBorder.start();
 
         // Send loaded message
         Bukkit.getLogger().info("Imperial is installed!");

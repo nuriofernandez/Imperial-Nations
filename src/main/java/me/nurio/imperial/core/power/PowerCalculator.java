@@ -24,6 +24,8 @@ public class PowerCalculator {
         put(Material.RAIL, 10F);
         put(Material.CHEST, 100F);
         put(Material.WHEAT, 10F);
+        put(Material.CARROTS, 20F);
+        put(Material.POTATOES, 20F);
 
         // TODO Add more wood types
         put(Material.OAK_SIGN, 10F);

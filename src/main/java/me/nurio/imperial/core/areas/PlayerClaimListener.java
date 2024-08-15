@@ -37,10 +37,13 @@ public class PlayerClaimListener implements Listener {
         Organization organization = organizations.getFirst();
         Location location = eve.getBlock().getLocation();
 
-        // If terrain already belongs to someone
+        // If terrain is wilderness or belongs to a different organization
         List<Organization> organizationsAtLoc = Imperial.getOrganizationFactory().fromLocation(location);
-        if (!organizationsAtLoc.isEmpty()) {
-            return;
+        if (organizationsAtLoc.isEmpty()) {
+            return; // wilderness
+        }
+        if (organizationsAtLoc.getFirst() != organization) {
+            return; // is not the user's organization
         }
 
         // Prevent creating two areas in the same place

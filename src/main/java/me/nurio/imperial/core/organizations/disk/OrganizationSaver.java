@@ -42,8 +42,11 @@ public class OrganizationSaver {
 
         // Save power if it's not 0 (0 could mean it's not calculated yet)
         if (organization.getPower() != 0) {
-            config.set("power", 0);
+            config.set("power", organization.getPower());
         }
+
+        // Save config
+        config.save();
 
         return config.getConfigFile();
     }

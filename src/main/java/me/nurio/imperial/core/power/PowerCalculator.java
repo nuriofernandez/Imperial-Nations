@@ -33,6 +33,10 @@ public class PowerCalculator {
         put(Material.ACACIA_SIGN, 10F);
     }};
 
+    public static boolean isPowerBlock(Location location) {
+        return powerFromLocation(location) > 0;
+    }
+
     public static int powerFromLocation(Location location) {
         Material material = location.getBlock().getType();
 

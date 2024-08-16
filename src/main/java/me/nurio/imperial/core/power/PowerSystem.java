@@ -6,6 +6,8 @@ import me.nurio.imperial.core.organizations.OrganizationFactory;
 import me.nurio.imperial.core.organizations.disk.OrganizationSaver;
 import org.bukkit.Bukkit;
 
+import java.util.Collection;
+
 public class PowerSystem {
 
     public static void start() {
@@ -51,7 +53,10 @@ public class PowerSystem {
             .getAreas()
             .stream()
             .map(AreaPointCalculatorOperation::new)
-            .map(AreaPointCalculatorOperation::getPower)
+            .map(AreaPointCalculatorOperation::getSpecialBlocks)
+            .flatMap(Collection::stream)
+            .distinct()
+            .map(PowerCalculator::powerFromLocation)
             .mapToInt(Integer::intValue)
             .sum();
     }

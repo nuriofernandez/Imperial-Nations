@@ -5,6 +5,7 @@ import me.nurio.minecraft.worldareas.areas.BlockArea;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -15,22 +16,23 @@ public class AreaPointCalculatorOperation {
 
     private final BlockArea area;
 
-    public int getPower() {
+    public List<Location> getSpecialBlocks() {
         World world = area.getStart().getWorld();
 
-        int totalPower = 0;
+        List<Location> blocks = new ArrayList<>();
         for (int y : getAxisRange(Location::getBlockY)) {
             for (int x : getAxisRange(Location::getBlockX)) {
                 for (int z : getAxisRange(Location::getBlockZ)) {
                     Location location = new Location(world, x, y, z);
 
-                    int power = PowerCalculator.powerFromLocation(location);
-                    totalPower+=power;
+                    if (PowerCalculator.isPowerBlock(location)) {
+                        blocks.add(location);
+                    }
                 }
             }
         }
 
-        return totalPower;
+        return blocks;
     }
 
     private List<Integer> getAxisRange(Function<Location, Integer> axis) {

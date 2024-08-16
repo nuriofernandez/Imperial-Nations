@@ -11,7 +11,6 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 
-
 public class ProtectionPlayerListener implements Listener {
 
     @NotNull private OrganizationFactory organizationFactory;
@@ -22,7 +21,7 @@ public class ProtectionPlayerListener implements Listener {
         this.permissionManager = new PermissionManager(organizationFactory);
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void blockBreakEvent(BlockBreakEvent eve) {
         boolean hasPermissionsAt = permissionManager.hasPermissionsAt(eve.getPlayer(), eve.getBlock().getLocation());
 
@@ -33,7 +32,7 @@ public class ProtectionPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void blockPlaceEvent(BlockPlaceEvent eve) {
         boolean hasPermissionsAt = permissionManager.hasPermissionsAt(eve.getPlayer(), eve.getBlock().getLocation());
 
@@ -44,7 +43,7 @@ public class ProtectionPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void blockCanEvent(BlockCanBuildEvent eve) {
         boolean hasPermissionsAt = permissionManager.hasPermissionsAt(eve.getPlayer(), eve.getBlock().getLocation());
 
@@ -55,7 +54,7 @@ public class ProtectionPlayerListener implements Listener {
         }
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void playerInteractEvent(PlayerInteractEvent eve) {
         Location interactionPoint = eve.getInteractionPoint();
         if (interactionPoint == null) {

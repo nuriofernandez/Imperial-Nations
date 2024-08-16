@@ -2,6 +2,7 @@ package me.nurio.imperial.core.areas;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class FirstClaimListener implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onPlaceSign(BlockCanBuildEvent eve) {
         Material material = eve.getBlock().getType();
 

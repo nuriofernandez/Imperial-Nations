@@ -1,7 +1,7 @@
 package me.nurio.imperial.core;
 
 import lombok.Getter;
-import me.nurio.imperial.core.areas.FirstClaimListener;
+import me.nurio.imperial.core.areas.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
 import me.nurio.imperial.core.nether.NetherPortalListener;
@@ -33,9 +33,9 @@ public class Imperial extends JavaPlugin {
 
         // Register event listeners
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(organizationFactory), this);
+        Bukkit.getPluginManager().registerEvents(new InitialClaimListener(), this);
         Bukkit.getPluginManager().registerEvents(new ProtectionPlayerListener(organizationFactory), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClaimListener(), this);
-        Bukkit.getPluginManager().registerEvents(new FirstClaimListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(organizationFactory), this);
         Bukkit.getPluginManager().registerEvents(new NetherPortalListener(), this);

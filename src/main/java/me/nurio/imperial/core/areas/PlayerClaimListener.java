@@ -1,9 +1,7 @@
 package me.nurio.imperial.core.areas;
 
-import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
-import me.nurio.minecraft.worldareas.areas.BlockArea;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

@@ -2,28 +2,47 @@ package me.nurio.imperial.core.areas;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockCanBuildEvent;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class FirstClaimListener implements Listener {
+public class InitialClaimListener implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
-    public void onPlaceSign(BlockCanBuildEvent eve) {
-        Material material = eve.getBlock().getType();
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void onPlaceBanner(PlayerInteractEvent eve) {
+        if (eve.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            return;
+        }
+
+        if (eve.getClickedBlock() == null) {
+            return;
+        }
+
+        Player player = eve.getPlayer();
+        Block block = eve.getClickedBlock();
+
+        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        Material material = itemInMainHand.getType();
 
         // First claim should be done with a sign
-        if (material != Material.WHITE_BANNER) return;
+        if (material != Material.WHITE_BANNER) {
+            return;
+        }
 
         // If player is an outsider
-        List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(eve.getPlayer());
+        List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(player);
         if (organizations.isEmpty()) {
+            player.sendMessage(Component.text("You don't belong to any organization."));
             return;
         }
 
@@ -39,22 +58,24 @@ public class FirstClaimListener implements Listener {
             return;
         }
 
-        Location location = eve.getBlock().getLocation();
+        Location location = block.getLocation();
 
         // If terrain already belongs to someone
         List<Organization> organizationsAtLoc = Imperial.getOrganizationFactory().fromLocation(location);
         if (!organizationsAtLoc.isEmpty()) {
+            player.sendMessage(Component.text("This place belongs to another state."));
             return;
         }
 
         // If there is any other org close by
         if (OrganizationDistance.isCloseToAnyOtherOrganization(organization, location)) {
+            player.sendMessage(Component.text("You are too close to another state."));
             return;
         }
 
         // Execute claim
         ClaimManager.claim(location, material, organization);
-        eve.setBuildable(true);
+        eve.setCancelled(false);
 
         // Send a lightning!
         location.getWorld().strikeLightningEffect(location);

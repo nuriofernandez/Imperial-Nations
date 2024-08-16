@@ -8,16 +8,16 @@ public class OrganizationDistance {
 
     /**
      * Since areas will be created from 120x120, radius 60,
-     * we set a limit of 300, that will be (distance:300)-(radius:120)=(separation:180)
+     * we set a limit of 300, that will be (distance:250)-(radius:120)=(separation:130)
      */
-    private static final double MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION = 300D;
+    private static final double MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION = 250D;
 
     public static boolean isCloseToAnyOtherOrganization(Organization self, Location location) {
         for (Organization organization : Imperial.getOrganizationFactory().getOrganizations()) {
             if (organization == self) continue;
 
             double distance = distance(location, self);
-            if (distance <= MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION) {
+            if (distance >= MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION) {
                 return true;
             }
         }

@@ -10,7 +10,7 @@ public class ClaimMaterials {
     private static final Map<Material, Integer> materials = new HashMap<>() {{
         put(Material.WHITE_BED, 50); // Default bed
 
-        put(Material.OAK_SIGN, 40); // Initial claiming item
+        put(Material.WHITE_BANNER, 40); // Initial claiming item
 
         put(Material.ORANGE_BED, 60);
         put(Material.MAGENTA_BED, 60);

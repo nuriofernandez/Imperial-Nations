@@ -18,7 +18,7 @@ public class FirstClaimListener implements Listener {
         Material material = eve.getBlock().getType();
 
         // First claim should be done with a sign
-        if (material != Material.OAK_SIGN) return;
+        if (material != Material.WHITE_BANNER) return;
 
         // If player is an outsider
         List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(eve.getPlayer());

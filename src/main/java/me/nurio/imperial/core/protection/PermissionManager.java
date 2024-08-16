@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +18,11 @@ public class PermissionManager {
     public boolean hasPermissionsAt(Player player, Location location) {
         // Below height 20 everything is allowed.
         if (location.getBlockY() <= 20) {
+            return true;
+        }
+
+        // If world is not overworld, then allow it.
+        if (location.getWorld().getEnvironment() != World.Environment.NORMAL) {
             return true;
         }
 

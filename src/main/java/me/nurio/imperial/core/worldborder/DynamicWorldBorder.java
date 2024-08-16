@@ -8,7 +8,7 @@ public class DynamicWorldBorder {
 
     public static void start() {
         int organizationsCount = Imperial.getOrganizationFactory().getOrganizations().size();
-        double worldSize = 400 + (200 * organizationsCount);
+        double worldSize = 500 + (250 * organizationsCount);
 
         for (World world : Bukkit.getWorlds()) {
             if (world.getEnvironment().equals(World.Environment.NETHER)) {

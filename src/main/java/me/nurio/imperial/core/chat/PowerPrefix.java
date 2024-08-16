@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
 
 public class PowerPrefix {
 
-    private static DecimalFormat decimalFormat = new DecimalFormat("#.0");
+    private static DecimalFormat decimalFormat = new DecimalFormat("0.0");
 
     public static Component getPower(Organization organization) {
         return Component.text("✦" +powerDecimal(organization))

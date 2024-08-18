@@ -13,6 +13,7 @@ public class PowerCalculator {
 
     public static Map<Material, Float> dynamicPowerBlocksMap = new HashMap<>() {{
         put(Material.COBBLESTONE, 1F);
+        put(Material.TORCH, 1F);
 
         // TODO add more wood types
         put(Material.OAK_PLANKS, 3F);
@@ -21,8 +22,26 @@ public class PowerCalculator {
     }};
 
     public static Map<Material, Float> staticPowerBlocksMap = new HashMap<>() {{
-        put(Material.RAIL, 10F);
+        // Building blocks
+        put(Material.STONE_BRICKS, 10F);
+        put(Material.BRICKS, 20F);
+        put(Material.DEEPSLATE_BRICKS, 5F);
+        put(Material.TUFF_BRICKS, 5F);
+
+        // Decoration
+        put(Material.DARK_OAK_FENCE, 10F);
+        put(Material.OAK_FENCE, 10F);
+        put(Material.ACACIA_FENCE, 10F);
+
+        // Working blocks
+        put(Material.LOOM, 20F);
+        put(Material.JUKEBOX, 100F);
         put(Material.CHEST, 100F);
+
+        // Infrastructure
+        put(Material.RAIL, 10F);
+
+        // Farms
         put(Material.WHEAT, 10F);
         put(Material.CARROTS, 20F);
         put(Material.POTATOES, 20F);

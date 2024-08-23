@@ -2,6 +2,7 @@ package me.nurio.imperial.core.areas;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.imperial.core.organizations.OrganizationFactory;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,6 +18,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public class InitialClaimListener implements Listener {
+
+    private final OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlaceBanner(PlayerInteractEvent eve) {
@@ -40,7 +43,7 @@ public class InitialClaimListener implements Listener {
         }
 
         // If player is an outsider
-        List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(player);
+        List<Organization> organizations = organizationFactory.fromPlayer(player);
         if (organizations.isEmpty()) {
             player.sendMessage(Component.text("You don't belong to any organization."));
             return;
@@ -61,7 +64,7 @@ public class InitialClaimListener implements Listener {
         Location location = block.getLocation();
 
         // If terrain already belongs to someone
-        List<Organization> organizationsAtLoc = Imperial.getOrganizationFactory().fromLocation(location);
+        List<Organization> organizationsAtLoc = organizationFactory.fromLocation(location);
         if (!organizationsAtLoc.isEmpty()) {
             player.sendMessage(Component.text("This place belongs to another state."));
             return;

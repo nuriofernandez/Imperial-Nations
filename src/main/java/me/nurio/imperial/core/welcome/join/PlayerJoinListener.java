@@ -1,6 +1,7 @@
 package me.nurio.imperial.core.welcome.join;
 
 import lombok.RequiredArgsConstructor;
+import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.entity.Player;
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PlayerJoinListener implements Listener {
 
-    @NotNull private OrganizationFactory organizationFactory;
+    private final OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent eve) {

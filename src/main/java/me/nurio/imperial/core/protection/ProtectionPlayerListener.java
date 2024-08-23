@@ -1,5 +1,6 @@
 package me.nurio.imperial.core.protection;
 
+import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -17,15 +18,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ProtectionPlayerListener implements Listener {
 
-    @NotNull
-    private OrganizationFactory organizationFactory;
-    @NotNull
-    private PermissionManager permissionManager;
-
-    public ProtectionPlayerListener(OrganizationFactory organizationFactory) {
-        this.organizationFactory = organizationFactory;
-        this.permissionManager = new PermissionManager(organizationFactory);
-    }
+    private final OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
+    private final PermissionManager permissionManager = new PermissionManager(organizationFactory);
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void blockBreakEvent(BlockBreakEvent eve) {

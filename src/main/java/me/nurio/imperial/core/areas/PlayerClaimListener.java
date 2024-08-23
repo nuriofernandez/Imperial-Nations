@@ -2,6 +2,7 @@ package me.nurio.imperial.core.areas;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,8 @@ import java.util.List;
 
 public class PlayerClaimListener implements Listener {
 
+    private final OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
+
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlaceSpecialBlock(BlockPlaceEvent eve) {
         Material material = eve.getBlock().getType();
@@ -22,7 +25,7 @@ public class PlayerClaimListener implements Listener {
         }
 
         // If player is an outsider
-        List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(eve.getPlayer());
+        List<Organization> organizations = organizationFactory.fromPlayer(eve.getPlayer());
         if (organizations.isEmpty()) {
             return;
         }
@@ -36,7 +39,7 @@ public class PlayerClaimListener implements Listener {
         Location location = eve.getBlock().getLocation();
 
         // If terrain is wilderness or belongs to a different organization
-        List<Organization> organizationsAtLoc = Imperial.getOrganizationFactory().fromLocation(location);
+        List<Organization> organizationsAtLoc = organizationFactory.fromLocation(location);
         if (organizationsAtLoc.isEmpty()) {
             return; // wilderness
         }

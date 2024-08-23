@@ -32,12 +32,12 @@ public class Imperial extends JavaPlugin {
         OrganizationLoader.loadAll();
 
         // Register event listeners
-        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(organizationFactory), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new InitialClaimListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ProtectionPlayerListener(organizationFactory), this);
+        Bukkit.getPluginManager().registerEvents(new ProtectionPlayerListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClaimListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
-        Bukkit.getPluginManager().registerEvents(new ChatListener(organizationFactory), this);
+        Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         Bukkit.getPluginManager().registerEvents(new NetherPortalListener(), this);
 
         // Register Organization power system

@@ -4,18 +4,14 @@ import lombok.Getter;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
-import me.nurio.minecraft.worldareas.GrechAreas;
-import me.nurio.minecraft.worldareas.areas.WorldAreaFactory;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class MessageSendAttempt {
 
-    private static OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
+    private final OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
 
     @Getter
     private Player sender;

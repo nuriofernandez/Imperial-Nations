@@ -25,17 +25,11 @@ public class PlayerClaimListener implements Listener {
         }
 
         // If player is an outsider
-        List<Organization> organizations = organizationFactory.fromPlayer(eve.getPlayer());
-        if (organizations.isEmpty()) {
+        Organization organization = organizationFactory.fromPlayer(eve.getPlayer());
+        if (organization == null) {
             return;
         }
 
-        // In case the user belongs to many organizations, do nothing.
-        if (organizations.size() >= 2) {
-            return;
-        }
-
-        Organization organization = organizations.getFirst();
         Location location = eve.getBlock().getLocation();
 
         // If terrain is wilderness or belongs to a different organization

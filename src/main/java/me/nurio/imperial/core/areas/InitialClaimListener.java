@@ -43,18 +43,11 @@ public class InitialClaimListener implements Listener {
         }
 
         // If player is an outsider
-        List<Organization> organizations = organizationFactory.fromPlayer(player);
-        if (organizations.isEmpty()) {
+        Organization organization = organizationFactory.fromPlayer(player);
+        if (organization == null) {
             player.sendMessage(Component.text("You don't belong to any organization."));
             return;
         }
-
-        // In case the user belongs to many organizations, do nothing.
-        if (organizations.size() >= 2) {
-            return;
-        }
-
-        Organization organization = organizations.getFirst();
 
         // If the organization has already any area, then ignore
         if (!organization.getWorldArea().getAreas().isEmpty()) {

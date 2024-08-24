@@ -21,9 +21,9 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent eve) {
         Player player = eve.getPlayer();
 
-        List<Organization> organizations = organizationFactory.fromPlayer(player);
+        Organization organization = organizationFactory.fromPlayer(player);
 
-        if (organizations.isEmpty()) {
+        if (organization == null) {
             OutsiderWelcome.sendWelcome(player);
             return;
         }

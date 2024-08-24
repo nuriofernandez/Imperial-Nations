@@ -27,10 +27,10 @@ public class PermissionManager {
         }
 
         // Check organization memberships
-        List<Organization> organizations = organizationFactory.fromPlayer(player);
+        Organization organization = organizationFactory.fromPlayer(player);
 
         // Outsiders doesn't have permissions
-        if (organizations.isEmpty()) {
+        if (organization == null) {
             OutsiderMessager.sendOutsiderMessage(player);
             return false;
         }
@@ -44,7 +44,7 @@ public class PermissionManager {
 
         // If player belongs to that organization
         Organization locationOrganization = organizationsAtLoc.getFirst();
-        return organizations.contains(locationOrganization);
+        return organization == locationOrganization;
     }
 
 }

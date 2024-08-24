@@ -14,15 +14,16 @@ import java.util.List;
 public class MemberWelcome {
 
     static void sendWelcome(Player player) {
-        List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(player);
+        Organization organization = Imperial.getOrganizationFactory().fromPlayer(player);
 
-        long delay = 0;
-        for (Organization organization : organizations) {
-            Bukkit.getScheduler().runTaskLater(Imperial.getPlugin(), () -> {
-                sendOrganizationWelcome(organization, player);
-            }, delay);
-            delay += 100;
+        // Do not send welcome to outsiders
+        if (organization == null) {
+            return;
         }
+
+        Bukkit.getScheduler().runTaskLater(Imperial.getPlugin(), () -> {
+            sendOrganizationWelcome(organization, player);
+        }, 20);
     }
 
     static void sendOrganizationWelcome(Organization organization, Player player) {

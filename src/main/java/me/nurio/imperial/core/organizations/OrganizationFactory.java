@@ -8,6 +8,7 @@ import me.nurio.minecraft.worldareas.areas.WorldAreaFactory;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,11 @@ public class OrganizationFactory {
         organizations.add(organization);
     }
 
-    public List<Organization> fromPlayer(Player player) {
+    @Nullable
+    public Organization fromPlayer(Player player) {
         return organizations.stream()
             .filter(organization -> organization.isMember(player))
-            .toList();
+            .findFirst().orElse(null);
     }
 
     public List<Organization> fromLocation(Location location) {

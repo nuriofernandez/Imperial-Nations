@@ -28,9 +28,9 @@ public class MessageSendAttempt {
         this.sender = sender;
         this.message = message;
 
-        List<Organization> playerOrganizations = organizationFactory.fromPlayer(sender.getPlayer());
-        if (!playerOrganizations.isEmpty()) {
-            senderOrganization = playerOrganizations.getFirst();
+        Organization playerOrganization = organizationFactory.fromPlayer(sender.getPlayer());
+        if (playerOrganization != null) {
+            senderOrganization = playerOrganization;
         }
 
         List<Organization> locationOrganization = organizationFactory.fromLocation(sender.getLocation());
@@ -40,11 +40,7 @@ public class MessageSendAttempt {
     }
 
     public void send(Player receiver) {
-        Organization receiverOrganization = null;
-        List<Organization> playerOrganizations = organizationFactory.fromPlayer(receiver);
-        if (!playerOrganizations.isEmpty()) {
-            receiverOrganization = playerOrganizations.getFirst();
-        }
+        Organization receiverOrganization = organizationFactory.fromPlayer(receiver);
 
         Organization receiverLocationOrganization = null;
         List<Organization> locationOrganization = organizationFactory.fromLocation(receiver.getLocation());

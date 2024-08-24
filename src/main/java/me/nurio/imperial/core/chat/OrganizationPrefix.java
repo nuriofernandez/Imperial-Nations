@@ -24,12 +24,11 @@ public class OrganizationPrefix {
     }
 
     public static Component getComponent(Player player) {
-        List<Organization> organizations = Imperial.getOrganizationFactory().fromPlayer(player);
-        if (organizations.isEmpty()) {
+        Organization organization = Imperial.getOrganizationFactory().fromPlayer(player);
+        if (organization == null) {
             return outsiderOrganization;
         }
 
-        Organization organization = organizations.getFirst();
         return getOrganization(organization);
     }
 

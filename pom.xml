@@ -28,6 +28,10 @@
             <id>nurio-repo</id>
             <url>https://maven.nurio.me/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -72,6 +76,12 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>16.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.samjakob</groupId>
+            <artifactId>SpiGUI</artifactId>
+            <version>v1.3.1</version>
         </dependency>
 
     </dependencies>

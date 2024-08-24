@@ -1,5 +1,6 @@
 package me.nurio.imperial.core;
 
+import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
 import me.nurio.imperial.core.areas.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
@@ -20,10 +21,12 @@ public class Imperial extends JavaPlugin {
 
     @Getter private static Plugin plugin;
     @Getter private static OrganizationFactory organizationFactory;
+    @Getter private static SpiGUI spiGui;
 
     @Override
     public void onEnable() {
         plugin = this;
+        spiGui = new SpiGUI(this);
 
         // Register Organization Factory
         organizationFactory = new OrganizationFactory();

@@ -46,10 +46,10 @@ public class OrganizationLoader {
         UUID uuid = UUID.fromString(config.getConfig().getString("uuid"));
 
         List<String> uuidMembers = config.getConfig().getStringList("members");
-        List<OfflinePlayer> members = uuidMembers.stream()
+        List<OfflinePlayer> members = new ArrayList<>(uuidMembers.stream()
             .map(UUID::fromString)
             .map(Bukkit::getOfflinePlayer)
-            .toList();
+            .toList());
 
         // Load world area (create one if it doesn't exist)
         if (!config.getConfig().isSet("worldArea")) {

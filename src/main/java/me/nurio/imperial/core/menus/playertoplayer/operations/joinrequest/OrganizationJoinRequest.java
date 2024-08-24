@@ -15,7 +15,7 @@ public record OrganizationJoinRequest(
      * @return
      */
     boolean isExpired() {
-        return System.currentTimeMillis() < (time * (1000 * 60 * 5));
+        return System.currentTimeMillis() > (time * (1000 * 60 * 5));
     }
 
 }

@@ -21,6 +21,8 @@ public class PowerSystem {
             20 * 60,
             20 * 60 * 60
         );
+
+        Bukkit.getPluginManager().registerEvents(new DayPassListener(), Imperial.getPlugin());
     }
 
     public static void performOperation() {

@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.nurio.imperial.core.areas.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
+import me.nurio.imperial.internal.sleepdetection.DetectPlayersSleepingTask;
 import me.nurio.imperial.core.menus.playertoplayer.PlayerClickListener;
 import me.nurio.imperial.core.nether.NetherPortalListener;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
@@ -28,6 +29,9 @@ public class Imperial extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         spiGui = new SpiGUI(this);
+
+        // Internal schedule register
+        DetectPlayersSleepingTask.start();
 
         // Register Organization Factory
         organizationFactory = new OrganizationFactory();

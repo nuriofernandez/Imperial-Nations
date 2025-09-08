@@ -25,4 +25,8 @@ public class Organization implements PlayerIsMember, OnlineMembers {
     @Getter @Setter
     @NotNull private int power;
 
+    public double getStars() {
+        return power / 40000;
+    }
+
 }

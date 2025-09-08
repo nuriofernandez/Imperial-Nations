@@ -57,4 +57,9 @@ public class Imperial extends JavaPlugin {
         Bukkit.getLogger().info("Imperial is installed!");
     }
 
+    @Override
+    public void onDisable(){
+        PowerSystem.stop();
+    }
+
 }

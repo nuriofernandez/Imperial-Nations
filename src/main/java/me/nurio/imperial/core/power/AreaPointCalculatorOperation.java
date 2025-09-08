@@ -25,7 +25,7 @@ public class AreaPointCalculatorOperation {
                 for (int z : getAxisRange(Location::getBlockZ)) {
                     Location location = new Location(world, x, y, z);
 
-                    if (PowerCalculator.isPowerBlock(location)) {
+                    if (PowerFromLocation.has(location)) {
                         blocks.add(location);
                     }
                 }

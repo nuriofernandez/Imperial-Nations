@@ -4,6 +4,8 @@ import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import me.nurio.imperial.core.organizations.disk.OrganizationSaver;
+import me.nurio.imperial.core.power.config.disk.BlockPowerLoader;
+import me.nurio.imperial.core.power.config.disk.BlockPowerSaver;
 import org.bukkit.Bukkit;
 
 import java.util.Collection;
@@ -11,6 +13,9 @@ import java.util.Collection;
 public class PowerSystem {
 
     public static void start() {
+        // Load power
+        BlockPowerLoader.loadAll();
+
         Bukkit.getScheduler().scheduleSyncRepeatingTask(Imperial.getPlugin(),
             () -> {
                 int onlinePlayers = Bukkit.getOnlinePlayers().size();
@@ -23,6 +28,10 @@ public class PowerSystem {
         );
 
         Bukkit.getPluginManager().registerEvents(new DayPassListener(), Imperial.getPlugin());
+    }
+
+    public static void stop(){
+        BlockPowerSaver.saveAll();
     }
 
     public static void performOperation() {
@@ -58,7 +67,7 @@ public class PowerSystem {
             .map(AreaPointCalculatorOperation::getSpecialBlocks)
             .flatMap(Collection::stream)
             .distinct()
-            .map(PowerCalculator::powerFromLocation)
+            .map(PowerFromLocation::power)
             .mapToInt(Integer::intValue)
             .sum();
     }

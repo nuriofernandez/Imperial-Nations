@@ -16,8 +16,7 @@ public class PowerPrefix {
     }
 
     private static String powerDecimal(Organization organization) {
-        double power = organization.getPower();
-        double stars = power/10000;
+        double stars = organization.getStars();
 
         return decimalFormat.format(stars);
     }

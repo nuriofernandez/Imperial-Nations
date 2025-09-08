@@ -3,8 +3,9 @@ package me.nurio.imperial.core.areas;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -21,6 +22,12 @@ public class PlayerClaimListener implements Listener {
         Material material = eve.getBlock().getType();
 
         if (!ClaimMaterials.isClaimingMaterial(material)) {
+            return;
+        }
+
+        // Is not a bed
+        BlockData data = eve.getBlock().getBlockData();
+        if (!(data instanceof Bed)) {
             return;
         }
 
@@ -50,6 +57,15 @@ public class PlayerClaimListener implements Listener {
         if (OrganizationDistance.isCloseToAnyOtherOrganization(organization, location)) {
             return;
         }
+
+        // Not enough power
+        double stars = (double) organization.getPower() /10000;
+        int currentSize = organization.getWorldArea().getAreas().size();
+        if (stars <= currentSize) {
+            Bukkit.getLogger().warning("Tried to claim but not enough stars");
+            return;
+        }
+
 
         // Execute claim
         ClaimManager.claim(location, material, organization);

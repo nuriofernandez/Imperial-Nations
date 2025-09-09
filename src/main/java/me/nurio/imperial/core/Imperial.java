@@ -5,6 +5,7 @@ import lombok.Getter;
 import me.nurio.imperial.core.areas.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
+import me.nurio.imperial.core.mechanics.EndermanBlockListener;
 import me.nurio.imperial.internal.sleepdetection.DetectPlayersSleepingTask;
 import me.nurio.imperial.core.menus.playertoplayer.PlayerClickListener;
 import me.nurio.imperial.core.nether.NetherPortalListener;
@@ -48,6 +49,7 @@ public class Imperial extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         Bukkit.getPluginManager().registerEvents(new NetherPortalListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClickListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EndermanBlockListener(), this);
 
         // Register Organization power system
         PowerSystem.start();

@@ -61,7 +61,7 @@ public class PlayerClaimListener implements Listener {
         // Not enough power
         double stars = organization.getStars();
         int currentSize = organization.getWorldArea().getAreas().size();
-        if (stars <= currentSize) {
+        if (stars <= (double) currentSize) {
             Bukkit.getLogger().warning("Tried to claim but not enough stars");
             return;
         }

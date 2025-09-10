@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imperial blocks points mapper</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .scrollable-content {
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4a4a4a #2d2d2d;
+        }
+        .scrollable-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        .scrollable-content::-webkit-scrollbar-track {
+            background: #2d2d2d;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #4a4a4a;
+            border-radius: 20px;
+            border: 2px solid #2d2d2d;
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .bg-red-custom {
+            background-color: #ff00005c;
+        }
+        .bg-green-custom {
+            background-color: #11ff4f5c;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 flex flex-col items-center min-h-screen">
+<div class="w-full max-w-4xl bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-10 mb-8 flex flex-col flex-grow">
+    <h1 class="text-3xl sm:text-4xl font-bold text-center text-orange-400 mb-2">
+        Imperial blocks points mapper
+    </h1>
+    <p class="text-center text-sm sm:text-base text-gray-400 mb-6">
+        Adjust the point values for each block across different dimensions.
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-between items-center bg-gray-700 p-4 rounded-xl mb-4">
+        <div class="flex flex-col sm:flex-row items-center gap-4">
+            <h2 class="text-xl font-semibold mb-2 sm:mb-0">Settings</h2>
+            <label class="block">
+                <span class="sr-only">Choose file</span>
+                <input type="file" id="yamlFile" accept=".yml, .yaml" class="block w-full text-sm text-slate-300
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-xl file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-green-500 file:text-white
+                    hover:file:bg-green-600
+                    "/>
+            </label>
+        </div>
+        <button id="generateBtn" class="bg-green-500 hover:bg-green-600 transition-colors duration-200 text-white font-bold py-2 px-6 rounded-xl shadow-lg mt-4 sm:mt-0">
+            Generate YAML File
+        </button>
+    </div>
+
+    <div class="flex flex-col sm:flex-row justify-between items-center bg-gray-700 p-4 rounded-xl mb-6">
+        <div class="flex items-center w-full sm:w-auto mb-4 sm:mb-0">
+            <label for="searchInput" class="mr-2 text-xl font-semibold">Search:</label>
+            <input type="text" id="searchInput" placeholder="Search blocks..." class="w-full bg-gray-600 text-white rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+        </div>
+
+        <div class="flex items-center w-full sm:w-auto justify-end">
+            <h2 class="text-xl font-semibold mr-4">Sort by:</h2>
+            <select id="sortSelect" class="bg-gray-600 text-white py-2 px-4 rounded-xl shadow-lg cursor-pointer">
+                <option value="last_edit">Last Edit</option>
+                <option value="name">Name</option>
+                <option value="underground">Underground Power</option>
+                <option value="overworld">Overworld Power</option>
+                <option value="sky">Sky Power</option>
+                <option value="average">Average Power</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="blockContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 scrollable-content min-h-[300px] flex-grow" style="padding: 10px;">
+    </div>
+</div>
+
+<div id="modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm p-4">
+    <div class="bg-gray-800 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+        <div class="flex justify-between items-center p-4 bg-gray-700">
+            <h3 class="text-xl font-semibold text-white">Generated `power-config.yml`</h3>
+            <button id="closeModalBtn" class="text-gray-400 hover:text-white transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div class="p-6">
+            <pre id="yamlOutput" class="bg-gray-900 text-green-300 p-4 rounded-xl overflow-x-auto text-sm" style="height: 600px"></pre>
+            <div class="mt-4 flex flex-col sm:flex-row justify-end gap-2">
+                <button id="copyBtn" class="bg-blue-600 hover:bg-blue-700 transition-colors duration-200 text-white font-bold py-2 px-4 rounded-xl shadow-lg">
+                    Copy to Clipboard
+                </button>
+                <a id="downloadBtn" href="#" class="bg-green-600 hover:bg-green-700 transition-colors duration-200 text-white font-bold py-2 px-4 rounded-xl shadow-lg text-center">
+                    Download File
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        let currentBlockData = {};
+
+        const blockContainer = document.getElementById('blockContainer');
+        const generateBtn = document.getElementById('generateBtn');
+        const yamlFile = document.getElementById('yamlFile');
+        const sortSelect = document.getElementById('sortSelect');
+        const searchInput = document.getElementById('searchInput'); // New
+        const modal = document.getElementById('modal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const yamlOutput = document.getElementById('yamlOutput');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        function toTitleCase(str) {
+            return str.toLowerCase().split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
+
+        function getImageUrl(blockName) {
+            const imageUrl = `https://minecraft-api.vercel.app/images/blocks/${blockName.toLowerCase()}.png`;
+            return imageUrl;
+        }
+
+        function createBlockCard(blockName, values) {
+            const isEdited = values.last_edit !== null && values.last_edit !== undefined && values.last_edit !== "null";
+            const lastEdit = isEdited ?
+                new Date(values.last_edit).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) :
+                'Never edited';
+
+            const cardBackgroundColor = isEdited ? 'bg-gray-700' : 'bg-red-custom';
+
+            const blockCard = document.createElement('div');
+            blockCard.className = `${cardBackgroundColor} p-4 rounded-xl shadow-lg transition-transform hover:scale-105 flex flex-col justify-between item-card`;
+            blockCard.innerHTML = `
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img id="img-${blockName}" src="${getImageUrl(blockName)}" onerror="this.src='https://minecraft-api.vercel.app/images/items/barrier.png';" alt="${toTitleCase(blockName)}" class="w-12 h-12 mr-4 rounded-md border-2 border-gray-600">
+                        <h4 class="text-lg font-bold text-gray-200">${toTitleCase(blockName)}</h4>
+                    </div>
+                    <div class="space-y-3">
+                        ${Object.keys(values).filter(key => key !== 'last_edit').map(key => `
+                            <div>
+                                <label for="${blockName}-${key}" class="block text-sm font-medium text-gray-400 capitalize mb-1">${key}:</label>
+                                <input type="number" id="${blockName}-${key}" data-block-name="${blockName}" data-dimension="${key}" value="${values[key]}"
+                                    class="w-full bg-gray-600 text-white rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                <div class="text-xs text-gray-400 mt-4 text-right" id="last-edit-${blockName}">
+                    Last edited: ${lastEdit}
+                </div>
+            `;
+            return blockCard;
+        }
+
+        function createManualAddCard() {
+            const addCard = document.createElement('div');
+            addCard.className = 'bg-blue-500 p-4 rounded-xl shadow-lg flex flex-col justify-between';
+            addCard.style = "height: 410px"
+            addCard.innerHTML = `
+                <h4 class="text-lg font-bold text-gray-200 mb-4">Add a new block</h4>
+                <div class="space-y-3">
+                    <div>
+                        <label for="newBlockName" class="block text-sm font-medium text-gray-400 capitalize mb-1">Block Name:</label>
+                        <input type="text" id="newBlockName" placeholder="e.g., DIAMOND_ORE" class="w-full bg-gray-600 text-white rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="newUnderground" class="block text-sm font-medium text-gray-400 capitalize mb-1">underground:</label>
+                        <input type="number" id="newUnderground" value="0" class="w-full bg-gray-600 text-white rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="newOverworld" class="block text-sm font-medium text-gray-400 capitalize mb-1">overworld:</label>
+                        <input type="number" id="newOverworld" value="0" class="w-full bg-gray-600 text-white rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label for="newSky" class="block text-sm font-medium text-gray-400 capitalize mb-1">sky:</label>
+                        <input type="number" id="newSky" value="0" class="w-full bg-gray-600 text-white rounded-md px-3 py-2 text-sm focus:ring-2 focus:ring-green-500 focus:outline-none">
+                    </div>
+                </div>
+                <button id="addMaterialBtn" class="bg-blue-600 hover:bg-blue-700 transition-colors duration-200 text-white font-bold py-2 px-4 rounded-xl shadow-lg mt-4">Add Block</button>
+            `;
+            return addCard;
+        }
+
+        function parseYaml(yamlString) {
+            const lines = yamlString.split('\n');
+            const result = {};
+            let currentBlock = null;
+
+            lines.forEach(line => {
+                const trimmedLine = line.trim();
+                if (trimmedLine.length === 0) return;
+
+                const indent = line.search(/\S|$/);
+                if (indent === 0) {
+                    const key = trimmedLine.slice(0, -1);
+                    result[key] = {};
+                    currentBlock = key;
+                } else if (indent > 0 && currentBlock) {
+                    const [key, value] = trimmedLine.split(': ').map(s => s.trim());
+                    if (key && value) {
+                        if (key === 'last_edit') {
+                            if (value.toLowerCase() === 'null') {
+                                result[currentBlock][key] = null;
+                            } else {
+                                result[currentBlock][key] = value.replace(/^"(.*)"$/, '$1');
+                            }
+                        } else {
+                            const parsedValue = parseFloat(value);
+                            result[currentBlock][key] = parsedValue;
+                        }
+                    }
+                }
+            });
+            return result;
+        }
+
+        function sortBlocks(data, sortBy) {
+            const entries = Object.entries(data);
+            entries.sort((a, b) => {
+                const [nameA, valuesA] = a;
+                const [nameB, valuesB] = b;
+
+                switch (sortBy) {
+                    case 'last_edit':
+                        const dateA = valuesA.last_edit ? new Date(valuesA.last_edit).getTime() : 0;
+                        const dateB = valuesB.last_edit ? new Date(valuesB.last_edit).getTime() : 0;
+                        return dateB - dateA;
+                    case 'name':
+                        return nameA.localeCompare(nameB);
+                    case 'underground':
+                    case 'overworld':
+                    case 'sky':
+                        return (valuesB[sortBy] || 0) - (valuesA[sortBy] || 0);
+                    case 'average':
+                        const avgA = (valuesA.underground + valuesA.overworld + valuesA.sky) / 3;
+                        const avgB = (valuesB.underground + valuesB.overworld + valuesB.sky) / 3;
+                        return avgB - avgA;
+                    default:
+                        return 0;
+                }
+            });
+            return Object.fromEntries(entries);
+        }
+
+        function renderBlocks(data) {
+            blockContainer.innerHTML = '';
+
+            const searchTerm = searchInput.value.toUpperCase();
+            const filteredData = Object.entries(data).filter(([blockName]) =>
+                blockName.toUpperCase().includes(searchTerm)
+            );
+
+            const sortedData = sortBlocks(Object.fromEntries(filteredData), sortSelect.value);
+            const sortedEntries = Object.entries(sortedData);
+
+            if (sortedEntries.length !== 0) {
+                for (const [blockName, values] of sortedEntries) {
+                    const card = createBlockCard(blockName, values);
+                    blockContainer.appendChild(card);
+                }
+            }
+
+            blockContainer.appendChild(createManualAddCard());
+
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.addEventListener('input', (event) => {
+                    const blockName = event.target.getAttribute('data-block-name');
+                    const dimension = event.target.getAttribute('data-dimension');
+                    if (blockName) {
+                        currentBlockData[blockName][dimension] = parseFloat(event.target.value);
+                        currentBlockData[blockName].last_edit = new Date().toISOString();
+                        currentBlockData[blockName].edited = true;
+                        const lastEditElement = document.getElementById(`last-edit-${blockName}`);
+                        if (lastEditElement) {
+                            lastEditElement.textContent = `Last edited: ${new Date(currentBlockData[blockName].last_edit).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}`;
+                        }
+                        const card = lastEditElement.closest('.item-card');
+                        if (card) {
+                            card.classList.remove('bg-red-custom');
+                            card.classList.remove('bg-gray-700');
+
+                            card.classList.add('bg-green-custom');
+                        }
+                    }
+                });
+            });
+
+            document.getElementById('addMaterialBtn').addEventListener('click', () => {
+                const newBlockName = document.getElementById('newBlockName').value.toUpperCase();
+                const underground = parseFloat(document.getElementById('newUnderground').value);
+                const overworld = parseFloat(document.getElementById('newOverworld').value);
+                const sky = parseFloat(document.getElementById('newSky').value);
+
+                if (newBlockName && !isNaN(underground) && !isNaN(overworld) && !isNaN(sky)) {
+                    if (currentBlockData[newBlockName]) {
+                        alert("A block with this name already exists. Please choose a different name.");
+                        return;
+                    }
+
+                    currentBlockData[newBlockName] = {
+                        underground: underground,
+                        overworld: overworld,
+                        sky: sky,
+                        last_edit: new Date().toISOString()
+                    };
+                    renderBlocks(currentBlockData);
+                } else {
+                    alert("Please fill in all fields with valid values.");
+                }
+            });
+        }
+
+        yamlFile.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const fileContent = e.target.result;
+                    currentBlockData = parseYaml(fileContent);
+                    renderBlocks(currentBlockData);
+                } catch (error) {
+                    console.error("Error parsing YAML file:", error);
+                    alert("Failed to parse the YAML file. Please check its format.");
+                }
+            };
+            reader.readAsText(file);
+        });
+
+        sortSelect.addEventListener('change', () => {
+            renderBlocks(currentBlockData);
+        });
+
+        searchInput.addEventListener('input', () => {
+            renderBlocks(currentBlockData);
+        });
+
+        generateBtn.addEventListener('click', () => {
+            for (const blockName in currentBlockData) {
+                for (const key in currentBlockData[blockName]) {
+                    if (key !== 'edited' && key !== 'last_edit' && key in currentBlockData[blockName]) {
+                        const input = document.getElementById(`${blockName}-${key}`);
+                        if (input) {
+                            currentBlockData[blockName][key] = parseFloat(input.value);
+                        }
+                    }
+                }
+            }
+
+            if (Object.keys(currentBlockData).length === 0) {
+                alert("Please load a YAML file or add a new block before generating a new one.");
+                return;
+            }
+
+            const yamlString = Object.entries(currentBlockData).map(([block, values]) => {
+                const valueString = Object.entries(values).map(([key, value]) => {
+                    if (key === 'last_edit') {
+                        if (value === null || value === undefined) {
+                            return `  ${key}: null`;
+                        }
+                        return `  ${key}: "${value}"`;
+                    }
+                    if (key === 'edited') {
+                        return '';
+                    }
+                    return `  ${key}: ${value}`;
+                }).filter(v => v).join('\n');
+                return `${block}:\n${valueString}`;
+            }).join('\n');
+
+            yamlOutput.textContent = yamlString;
+            modal.classList.remove('hidden');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const textToCopy = yamlOutput.textContent;
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = textToCopy;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Failed to copy text:', err);
+            }
+            document.body.removeChild(tempTextarea);
+        });
+
+        downloadBtn.addEventListener('click', (e) => {
+            const text = yamlOutput.textContent;
+            const blob = new Blob([text], { type: 'text/yaml' });
+            const url = URL.createObjectURL(blob);
+            const a = e.target;
+            a.href = url;
+            a.download = 'power-config.yml';
+
+            setTimeout(() => URL.revokeObjectURL(url), 100);
+        });
+
+        renderBlocks(currentBlockData);
+    });
+</script>
+</body>
+</html>

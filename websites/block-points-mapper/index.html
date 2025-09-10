@@ -149,7 +149,9 @@
                 new Date(values.last_edit).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) :
                 'Never edited';
 
-            const cardBackgroundColor = isEdited ? 'bg-gray-700' : 'bg-red-custom';
+            const isEditedInCurrentSession = values.edited
+
+            const cardBackgroundColor = isEditedInCurrentSession ? "bg-green-custom" : (isEdited ? 'bg-gray-700' : 'bg-red-custom');
 
             const blockCard = document.createElement('div');
             blockCard.className = `${cardBackgroundColor} p-4 rounded-xl shadow-lg transition-transform hover:scale-105 flex flex-col justify-between item-card`;

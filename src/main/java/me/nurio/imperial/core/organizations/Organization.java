@@ -26,7 +26,24 @@ public class Organization implements PlayerIsMember, OnlineMembers {
     @NotNull private int power;
 
     public double getStars() {
-        return (double) power / 40000;
+        double stars = 0;
+
+        double starCost = 40_000;
+        double remainingPower = power;
+
+        while (remainingPower > 0) {
+            if (remainingPower >= starCost) {
+                stars++;
+                remainingPower -= starCost;
+                starCost = starCost * 1.25;
+                continue;
+            }
+
+            stars+= remainingPower / starCost;
+            remainingPower = 0;
+        }
+
+        return stars;
     }
 
 }

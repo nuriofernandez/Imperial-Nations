@@ -5,6 +5,7 @@ import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,7 +13,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockCanBuildEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityInteractEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -88,6 +91,27 @@ public class ProtectionPlayerListener implements Listener {
         Block block = eve.getBlock();
         if (block.getType() != Material.FARMLAND) return;
         eve.setCancelled(true);
+    }
+
+    @EventHandler
+    public void useEntity(PlayerInteractEntityEvent eve) {
+        if (eve.getRightClicked() instanceof Player) return;
+
+        // Check permissions
+        boolean hasPermissionsAt = permissionManager.hasPermissionsAt(eve.getPlayer(), eve.getRightClicked().getLocation());
+        if (!hasPermissionsAt) {
+            eve.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void damageEntity(EntityDamageByEntityEvent eve) {
+        if (!(eve.getDamager() instanceof Player player)) return;
+
+        boolean hasPermissionsAt = permissionManager.hasPermissionsAt(player, eve.getEntity().getLocation());
+        if (!hasPermissionsAt) {
+            eve.setCancelled(true);
+        }
     }
 
 }

@@ -1,10 +1,13 @@
 package me.nurio.imperial.core.protection;
 
 import me.nurio.imperial.core.Imperial;
+import me.nurio.imperial.core.mobprotection.MobPermissions;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -98,8 +101,9 @@ public class ProtectionPlayerListener implements Listener {
         if (eve.getRightClicked() instanceof Player) return;
 
         // Check permissions
-        boolean hasPermissionsAt = permissionManager.hasPermissionsAt(eve.getPlayer(), eve.getRightClicked().getLocation());
-        if (!hasPermissionsAt) {
+        Entity entity = eve.getRightClicked();
+        boolean canUseMob = MobPermissions.canUseMob(eve.getPlayer(), entity);
+        if (!canUseMob) {
             eve.setCancelled(true);
         }
     }
@@ -107,9 +111,11 @@ public class ProtectionPlayerListener implements Listener {
     @EventHandler
     public void damageEntity(EntityDamageByEntityEvent eve) {
         if (!(eve.getDamager() instanceof Player player)) return;
+        if (eve.getEntity() instanceof Monster) return;
 
-        boolean hasPermissionsAt = permissionManager.hasPermissionsAt(player, eve.getEntity().getLocation());
-        if (!hasPermissionsAt) {
+        Entity entity = eve.getEntity();
+        boolean canUseMob = MobPermissions.canUseMob(player, entity);
+        if (!canUseMob) {
             eve.setCancelled(true);
         }
     }

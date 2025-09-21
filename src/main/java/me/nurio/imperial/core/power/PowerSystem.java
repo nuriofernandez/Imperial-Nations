@@ -7,7 +7,11 @@ import me.nurio.imperial.core.organizations.disk.OrganizationSaver;
 import me.nurio.imperial.core.power.config.disk.BlockPowerLoader;
 import me.nurio.imperial.core.power.config.disk.BlockPowerSaver;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.Statistic;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 public class PowerSystem {
@@ -48,8 +52,13 @@ public class PowerSystem {
                 "Organization '" + organization.getName() + "' has a power of '" + power + "'"
             );
 
+            int membersPower = calculateOrganizationMembersPower(organization);
+            Bukkit.getLogger().info(
+                    "Organization '" + organization.getName() + "' has a MEMBERS power of '" + membersPower + "'"
+            );
+
             // Save power to organization
-            organization.setPower(power);
+            organization.setPower(power + membersPower);
             OrganizationSaver.save(organization);
         }
 
@@ -70,6 +79,22 @@ public class PowerSystem {
             .map(PowerFromLocation::power)
             .mapToInt(Integer::intValue)
             .sum();
+    }
+
+    public static int calculateOrganizationMembersPower(Organization organization) {
+        return organization.getMembers().stream()
+                .map(PowerSystem::memberPower)
+                .mapToInt(Integer::intValue)
+                .sum();
+    }
+
+    private static int memberPower(OfflinePlayer player) {
+        int statistic = player.getStatistic(Statistic.MINE_BLOCK, Material.STONE);
+        statistic += player.getStatistic(Statistic.MINE_BLOCK, Material.DIRT);
+        statistic += player.getStatistic(Statistic.MINE_BLOCK, Material.GRASS_BLOCK);
+        statistic += player.getStatistic(Statistic.MINE_BLOCK, Material.SAND);
+        statistic += player.getStatistic(Statistic.MINE_BLOCK, Material.GRAVEL);
+        return statistic;
     }
 
 }

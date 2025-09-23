@@ -14,6 +14,10 @@ public class ChatListener implements Listener {
         // Send message thru message send attempt
         MessageSendAttempt attempt = new MessageSendAttempt(eve.getPlayer(), eve.message());
         Bukkit.getOnlinePlayers().forEach(attempt::send);
+
+        Bukkit.getLogger().info(
+                String.format("%s : '%s'", eve.getPlayer().getName(), eve.message())
+        );
     }
 
 

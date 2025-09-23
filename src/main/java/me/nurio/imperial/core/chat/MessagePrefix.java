@@ -14,7 +14,7 @@ public class MessagePrefix {
         return OrganizationPrefix.getComponent(sender)
             .appendSpace()
             .append(Component.text(String.format(
-                    "(☀%.2f)", playedDays(sender)
+                    "(☀%d)", playedDays(sender)
             )).color(NamedTextColor.GREEN))
             .appendSpace()
             .append(sender.displayName())
@@ -22,9 +22,9 @@ public class MessagePrefix {
             .append(suffix);
     }
 
-    private static double playedDays(Player sender) {
-        double time = sender.getStatistic(Statistic.PLAY_ONE_MINUTE);
-        return time / 20 * 60 * 60 * 24; // day in ticks
+    private static int playedDays(Player sender) {
+        int time = sender.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        return time / (20 * 60 * 60); // day in ticks
     }
 
 }

@@ -37,7 +37,7 @@ public class MobOrganizationStorage {
     }
 
     public static void linkMobToOrganization(UUID uuid, Organization organization) {
-        mobOrganizations.put(uuid, organization);
+        mobOrganizations.putIfAbsent(uuid, organization);
     }
 
 

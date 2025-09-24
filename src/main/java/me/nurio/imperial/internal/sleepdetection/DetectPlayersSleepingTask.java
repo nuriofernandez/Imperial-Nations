@@ -16,7 +16,7 @@ public class DetectPlayersSleepingTask {
             boolean previousTickEveryoneSleeping = everyoneSleeping;
 
             earlyMorning = isEarlyMorning();
-            everyoneSleeping = allPlayersAreSleeping();
+            everyoneSleeping = allRequiredPlayersAreSleeping();
 
             // Previously players where not sleeping and was not night, abort.
             if (previousTickEarlyMorning) return;
@@ -43,8 +43,10 @@ public class DetectPlayersSleepingTask {
         return world.getTime() < 100;
     }
 
-    public static boolean allPlayersAreSleeping() {
-        return Bukkit.getOnlinePlayers().stream().allMatch(LivingEntity::isSleeping);
+    public static boolean allRequiredPlayersAreSleeping() {
+        int requiredPeopleSleeping = (Bukkit.getOnlinePlayers().size()/2); // 50% gamerule applied
+        int peopleSleeping = Math.toIntExact(Bukkit.getOnlinePlayers().stream().filter(LivingEntity::isSleeping).count());
+        return peopleSleeping >= requiredPeopleSleeping;
     }
 
 }

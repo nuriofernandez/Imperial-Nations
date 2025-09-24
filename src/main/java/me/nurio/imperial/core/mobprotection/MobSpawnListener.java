@@ -38,7 +38,9 @@ public class MobSpawnListener implements Listener {
     public void useEntity(PlayerInteractEntityEvent eve) {
         if (eve.getRightClicked() instanceof Player) return;
 
-        Player player = eve.getPlayer();
+        Player player =  eve.getPlayer();
+        if (!player.isSneaking()) return;
+
         Entity entity = eve.getRightClicked();
 
         Organization mobOrganization = MobOrganizationStorage.mobOrganization(entity);

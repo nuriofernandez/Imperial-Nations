@@ -5,6 +5,7 @@ import me.nurio.imperial.internal.sleepdetection.DayPassBySleepEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerBedLeaveEvent;
 import org.bukkit.potion.PotionEffect;
 
 public class DayPassListener implements Listener {
@@ -14,5 +15,7 @@ public class DayPassListener implements Listener {
         BlindEffect.applyEffectsToAll();
         Bukkit.getScheduler().runTaskLater(Imperial.getPlugin(), PowerSystem::performOperation, 5L);
     }
+
+
 
 }

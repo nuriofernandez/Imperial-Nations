@@ -9,9 +9,8 @@ import me.nurio.imperial.core.mechanics.EndermanBlockListener;
 import me.nurio.imperial.core.mobprotection.MobSpawnListener;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationLoader;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationSaver;
-import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.disk.OrganizationSaver;
-import me.nurio.imperial.internal.sleepdetection.DetectPlayersSleepingTask;
+import me.nurio.imperial.internal.sleepdetection.DetectDayPassListener;
 import me.nurio.imperial.core.menus.playertoplayer.PlayerClickListener;
 import me.nurio.imperial.core.nether.NetherPortalListener;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
@@ -36,9 +35,6 @@ public class Imperial extends JavaPlugin {
         plugin = this;
         spiGui = new SpiGUI(this);
 
-        // Internal schedule register
-        DetectPlayersSleepingTask.start();
-
         // Register Organization Factory
         organizationFactory = new OrganizationFactory();
 
@@ -57,6 +53,9 @@ public class Imperial extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new EndermanBlockListener(), this);
         Bukkit.getPluginManager().registerEvents(new MobSpawnListener(), this);
+
+        // Detect DayPassBySleepEvent
+        Bukkit.getPluginManager().registerEvents(new DetectDayPassListener(), this);
 
         // Register Organization power system
         PowerSystem.start();

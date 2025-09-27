@@ -7,6 +7,7 @@ import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
 import me.nurio.imperial.core.mechanics.EndermanBlockListener;
 import me.nurio.imperial.core.menus.MenusModule;
+import me.nurio.imperial.core.mobprotection.MobDeathListener;
 import me.nurio.imperial.core.mobprotection.MobSpawnListener;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationLoader;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationSaver;
@@ -54,6 +55,7 @@ public class Imperial extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new NetherPortalListener(), this);
         Bukkit.getPluginManager().registerEvents(new EndermanBlockListener(), this);
         Bukkit.getPluginManager().registerEvents(new MobSpawnListener(), this);
+        Bukkit.getPluginManager().registerEvents(new MobDeathListener(), this);
 
         // Detect DayPassBySleepEvent
         Bukkit.getPluginManager().registerEvents(new DetectDayPassListener(), this);

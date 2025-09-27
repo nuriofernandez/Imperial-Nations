@@ -18,9 +18,7 @@ public class OrganizationDistance {
             if (organization == self) continue;
 
             double distance = distance(location, organization);
-            Bukkit.broadcastMessage("Distance to "+organization.getName()+" is " + distance);
             if (distance <= MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION) {
-                Bukkit.broadcastMessage("NOOOOO! "+organization.getName()+" is " + distance);
                 return true;
             }
         }

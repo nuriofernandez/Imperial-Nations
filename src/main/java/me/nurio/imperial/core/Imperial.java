@@ -6,6 +6,7 @@ import me.nurio.imperial.core.areas.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
 import me.nurio.imperial.core.mechanics.EndermanBlockListener;
+import me.nurio.imperial.core.menus.MenusModule;
 import me.nurio.imperial.core.mobprotection.MobSpawnListener;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationLoader;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationSaver;
@@ -42,6 +43,9 @@ public class Imperial extends JavaPlugin {
         OrganizationLoader.loadAll();
         MobOrganizationLoader.loadAll();
 
+        // Menus module
+        MenusModule.start();
+
         // Register event listeners
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
         Bukkit.getPluginManager().registerEvents(new InitialClaimListener(), this);
@@ -50,7 +54,6 @@ public class Imperial extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
         Bukkit.getPluginManager().registerEvents(new NetherPortalListener(), this);
-        Bukkit.getPluginManager().registerEvents(new PlayerClickListener(), this);
         Bukkit.getPluginManager().registerEvents(new EndermanBlockListener(), this);
         Bukkit.getPluginManager().registerEvents(new MobSpawnListener(), this);
 

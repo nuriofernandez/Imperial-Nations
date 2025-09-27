@@ -4,6 +4,7 @@ import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class OrganizationDistance {
 
@@ -12,6 +13,15 @@ public class OrganizationDistance {
      * we set a limit of 300, that will be (distance:250)-(radius:120)=(separation:130)
      */
     private static final double MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION = 250D;
+
+    public static boolean reportCloseOrganization(Player player) {
+        for (Organization organization : Imperial.getOrganizationFactory().getOrganizations()) {
+            double distance = distance(player.getLocation(), organization);
+            player.sendMessage("You are "+((int)distance)+" blocks apart from "+organization.getName());
+        }
+
+        return false;
+    }
 
     public static boolean isCloseToAnyOtherOrganization(Organization self, Location location) {
         for (Organization organization : Imperial.getOrganizationFactory().getOrganizations()) {

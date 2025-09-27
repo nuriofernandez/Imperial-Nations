@@ -68,6 +68,7 @@ public class InitialClaimListener implements Listener {
         // If there is any other org close by
         if (OrganizationDistance.isCloseToAnyOtherOrganization(null, location)) {
             player.sendMessage(Component.text("You are too close to another state."));
+            OrganizationDistance.reportCloseOrganization(player);
             return;
         }
 

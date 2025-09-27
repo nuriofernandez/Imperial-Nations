@@ -2,7 +2,7 @@ package me.nurio.imperial.core;
 
 import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
-import me.nurio.imperial.core.areas.InitialClaimListener;
+import me.nurio.imperial.core.menus.creation.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
 import me.nurio.imperial.core.mechanics.EndermanBlockListener;
@@ -12,7 +12,6 @@ import me.nurio.imperial.core.mobprotection.disk.MobOrganizationLoader;
 import me.nurio.imperial.core.mobprotection.disk.MobOrganizationSaver;
 import me.nurio.imperial.core.organizations.disk.OrganizationSaver;
 import me.nurio.imperial.internal.sleepdetection.DetectDayPassListener;
-import me.nurio.imperial.core.menus.playertoplayer.PlayerClickListener;
 import me.nurio.imperial.core.nether.NetherPortalListener;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import me.nurio.imperial.core.organizations.disk.OrganizationLoader;
@@ -48,7 +47,6 @@ public class Imperial extends JavaPlugin {
 
         // Register event listeners
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        Bukkit.getPluginManager().registerEvents(new InitialClaimListener(), this);
         Bukkit.getPluginManager().registerEvents(new ProtectionPlayerListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerClaimListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerMoveListener(), this);

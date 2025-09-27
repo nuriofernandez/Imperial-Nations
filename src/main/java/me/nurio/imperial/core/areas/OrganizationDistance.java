@@ -2,6 +2,7 @@ package me.nurio.imperial.core.areas;
 
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.organizations.Organization;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 public class OrganizationDistance {
@@ -16,8 +17,10 @@ public class OrganizationDistance {
         for (Organization organization : Imperial.getOrganizationFactory().getOrganizations()) {
             if (organization == self) continue;
 
-            double distance = distance(location, self);
-            if (distance >= MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION) {
+            double distance = distance(location, organization);
+            Bukkit.broadcastMessage("Distance to "+organization.getName()+" is " + distance);
+            if (distance <= MINIMUM_DISTANCE_TO_ANOTHER_ORGANIZATION) {
+                Bukkit.broadcastMessage("NOOOOO! "+organization.getName()+" is " + distance);
                 return true;
             }
         }

@@ -1,6 +1,9 @@
-package me.nurio.imperial.core.areas;
+package me.nurio.imperial.core.menus.creation;
 
 import me.nurio.imperial.core.Imperial;
+import me.nurio.imperial.core.areas.ClaimManager;
+import me.nurio.imperial.core.areas.OrganizationDistance;
+import me.nurio.imperial.core.menus.creation.operations.CreateOrganizationOperation;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
 import net.kyori.adventure.text.Component;
@@ -37,20 +40,19 @@ public class InitialClaimListener implements Listener {
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
         Material material = itemInMainHand.getType();
 
-        // First claim should be done with a sign
-        if (material != Material.WHITE_BANNER) {
+        // Not sneaking, don't work
+        if (!player.isSneaking()) {
             return;
         }
 
-        // If player is an outsider
+        // Check if the item is a banner of any color
+        if (!material.name().endsWith("_BANNER")) {
+            return;
+        }
+
+        // If player is not an outsider, stop
         Organization organization = organizationFactory.fromPlayer(player);
-        if (organization == null) {
-            player.sendMessage(Component.text("You don't belong to any organization."));
-            return;
-        }
-
-        // If the organization has already any area, then ignore
-        if (!organization.getWorldArea().getAreas().isEmpty()) {
+        if (organization != null) {
             return;
         }
 
@@ -64,17 +66,15 @@ public class InitialClaimListener implements Listener {
         }
 
         // If there is any other org close by
-        if (OrganizationDistance.isCloseToAnyOtherOrganization(organization, location)) {
+        if (OrganizationDistance.isCloseToAnyOtherOrganization(null, location)) {
             player.sendMessage(Component.text("You are too close to another state."));
             return;
         }
 
-        // Execute claim
-        ClaimManager.claim(location, material, organization);
-        eve.setCancelled(false);
+        eve.setCancelled(true);
 
-        // Send a lightning!
-        location.getWorld().strikeLightningEffect(location);
+        // Execute create organization
+        CreateOrganizationOperation.createOrganization(player, block.getLocation());
     }
 
 }

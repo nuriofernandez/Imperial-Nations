@@ -1,4 +1,4 @@
-package me.nurio.imperial.core.menus.mapbench.operations;
+package me.nurio.imperial.core.menus.creation.operations;
 
 import io.papermc.paper.dialog.Dialog;
 import io.papermc.paper.registry.data.dialog.ActionButton;
@@ -7,37 +7,35 @@ import io.papermc.paper.registry.data.dialog.action.DialogAction;
 import io.papermc.paper.registry.data.dialog.input.DialogInput;
 import io.papermc.paper.registry.data.dialog.input.TextDialogInput;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
-import me.nurio.imperial.core.menus.mapbench.OrganizationRenamedMessage;
+import me.nurio.imperial.core.Imperial;
+import me.nurio.imperial.core.menus.creation.OrganizationCreatedMessage;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.imperial.core.organizations.OrganizationFactory;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickCallback;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenameOrganization {
+public class CreateOrganizationOperation {
 
-    static final String RENAME_INPUT_ID = "organization_name_input";
+    static final String CREATE_NAME_INPUT_ID = "organization_creation_name_input";
 
-    public static void rename(Player player, Organization organization) {
+    public static void createOrganization(Player player, Location foundingBlockLocation) {
         List<TextDialogInput> dialogInputs = new ArrayList();
-        dialogInputs.add(DialogInput.text(RENAME_INPUT_ID, Component.text("Rename your Empire")).build());
+        dialogInputs.add(DialogInput.text(CREATE_NAME_INPUT_ID, Component.text("Name your Empire")).build());
 
         DialogAction.CustomClickAction organizationRenameAction = DialogAction.customClick(
                 (view, audience) -> {
-                    String organizationNameInput = view.getText(RENAME_INPUT_ID);
-                    String oldOrganizationName = organization.getName();
+                    String organizationNameInput = view.getText(CREATE_NAME_INPUT_ID);
                     if (audience instanceof Player) {
-                        // Update the empire name
-                        organization.setName(organizationNameInput);
-
-                        // Send a message about it to everyone
-                        Component message = OrganizationRenamedMessage.build(player, organization, oldOrganizationName);
-                        Audience.audience(Bukkit.getOnlinePlayers()).sendMessage(message);
+                        CreateOrganization.createOrganization(player, foundingBlockLocation, organizationNameInput);
                     }
                 },
                 ClickCallback.Options.builder().uses(1).lifetime(ClickCallback.DEFAULT_LIFETIME).build()

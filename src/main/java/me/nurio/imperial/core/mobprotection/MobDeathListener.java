@@ -54,6 +54,7 @@ public class MobDeathListener implements Listener {
         didKillA = didKillA.append(Component.text(entityName.toLowerCase()).color(NamedTextColor.RED));
 
         // Send the message
+        Bukkit.getLogger().info(didKillA.content());
         Audience.audience(Bukkit.getOnlinePlayers()).sendMessage(didKillA);
     }
 

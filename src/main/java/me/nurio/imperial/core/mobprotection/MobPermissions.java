@@ -23,7 +23,12 @@ public class MobPermissions {
         Organization mobOrganization = MobOrganizationStorage.mobOrganization(entity);
         Organization playerOrganization = organizationFactory.fromPlayer(player);
 
-        if (playerOrganization == null) return false;
+        // If player doesn't belong to an organization,
+        // and mob is also wild, allow to use it
+        if (playerOrganization == null) {
+            return mobOrganization == null;
+        }
+
         if (mobOrganization == null) return true;
 
         if (mobOrganization.equals(playerOrganization)) {

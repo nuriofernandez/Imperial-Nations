@@ -1,6 +1,7 @@
 package me.nurio.imperial.core.menus.mapbench;
 
 import me.nurio.imperial.core.Imperial;
+import me.nurio.imperial.core.menus.mapbench.dialog.OrganizationSettingsDialog;
 import me.nurio.imperial.core.menus.mapbench.dialog.RenameOrganizationDialog;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
@@ -40,7 +41,7 @@ public class CartographyClickListener implements Listener {
         }
 
         // Execute rename function
-        RenameOrganizationDialog.show(player);
+        OrganizationSettingsDialog.show(player);
     }
 
 }

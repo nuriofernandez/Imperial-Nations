@@ -17,6 +17,7 @@ import io.papermc.paper.registry.keys.DialogKeys;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.menus.mapbench.OrganizationRenamedMessage;
 import me.nurio.imperial.core.organizations.Organization;
+import me.nurio.imperial.core.organizations.OrganizationFactory;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -35,7 +36,7 @@ public class RenameOrganizationDialog {
 
     public static void register(BootstrapContext context) {
         List<TextDialogInput> dialogInputs = new ArrayList();
-        dialogInputs.add(DialogInput.text(RENAME_INPUT_ID, Component.text("Rename your Empire")).build());
+        dialogInputs.add(DialogInput.text(RENAME_INPUT_ID, Component.text("Introduce empire's new name:")).build());
 
         DialogAction.CustomClickAction organizationRenameAction = DialogAction.customClick(
                 (view, audience) -> {
@@ -43,11 +44,36 @@ public class RenameOrganizationDialog {
                     if (!(audience instanceof Player)) {
                         return;
                     }
-
                     Player player = (Player) audience;
-                    Organization organization = Imperial.getOrganizationFactory().fromPlayer(player);
 
+                    // Validate new name
                     String organizationNameInput = view.getText(RENAME_INPUT_ID);
+                    if (organizationNameInput.isBlank()) {
+                        player.sendMessage("Please, provide a valid empire name.");
+                        return;
+                    }
+
+                    if (organizationNameInput.length() < 2) {
+                        player.sendMessage("New name is too short!");
+                        return;
+                    }
+
+                    if (organizationNameInput.length() > 16) {
+                        player.sendMessage("New name is too long!");
+                        return;
+                    }
+
+                    OrganizationFactory organizationFactory = Imperial.getOrganizationFactory();
+                    boolean nameAlreadyInUse = organizationFactory.getOrganizations().stream()
+                            .map(Organization::getName)
+                            .anyMatch(organizationNameInput::equalsIgnoreCase);
+
+                    if (nameAlreadyInUse){
+                        player.sendMessage("This empire name is already taken!");
+                        return;
+                    }
+
+                    Organization organization = organizationFactory.fromPlayer(player);
                     String oldOrganizationName = organization.getName();
 
                     // Update the empire name
@@ -57,13 +83,13 @@ public class RenameOrganizationDialog {
                     Component message = OrganizationRenamedMessage.build(player, organization, oldOrganizationName);
                     Audience.audience(Bukkit.getOnlinePlayers()).sendMessage(message);
                 },
-                ClickCallback.Options.builder().uses(1).lifetime(ClickCallback.DEFAULT_LIFETIME).build()
+                ClickCallback.Options.builder().uses(ClickCallback.UNLIMITED_USES).build()
         );
 
         var dialogConfig = RegistryEvents.DIALOG.compose().newHandler(event -> event.registry().register(
                 DialogKeys.create(Key.key(DIALOG_KEY)),
                 builder -> builder
-                        .base(DialogBase.builder(Component.text("Empire settings"))
+                        .base(DialogBase.builder(Component.text("Rename your Empire"))
                                 .inputs(dialogInputs)
                                 .build())
                         .type(DialogType.confirmation(

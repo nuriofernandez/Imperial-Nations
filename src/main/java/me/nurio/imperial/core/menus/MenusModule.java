@@ -4,6 +4,7 @@ import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import me.nurio.imperial.core.Imperial;
 import me.nurio.imperial.core.menus.creation.InitialClaimListener;
 import me.nurio.imperial.core.menus.mapbench.CartographyClickListener;
+import me.nurio.imperial.core.menus.mapbench.dialog.OrganizationSettingsDialog;
 import me.nurio.imperial.core.menus.mapbench.dialog.RenameOrganizationDialog;
 import me.nurio.imperial.core.menus.playertoplayer.PlayerClickListener;
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ public class MenusModule {
 
     public static void register(BootstrapContext context) {
         RenameOrganizationDialog.register(context);
+        OrganizationSettingsDialog.register(context);
     }
 
     public static void start() {

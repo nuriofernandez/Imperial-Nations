@@ -26,7 +26,7 @@ public class MobDeathListener implements Listener {
         DamageSource damageSource = event.getDamageSource();
         Entity causingEntity = damageSource.getCausingEntity();
         if (!(causingEntity instanceof Player player)) return;
-        String entityName = event.getEntity().getType().name();
+        String entityName = event.getEntity().getName();
 
         Organization playerOrganization = organizationFactory.fromPlayer(player);
 
@@ -39,13 +39,13 @@ public class MobDeathListener implements Listener {
                 .appendSpace()
                 .append(Component.text(player.getName()).color(NamedTextColor.WHITE))
                 .appendSpace()
-                .append(Component.text("killed").color(NamedTextColor.WHITE))
+                .append(Component.text("killed a").color(NamedTextColor.WHITE))
                 .appendSpace();
 
         // If org, add organization to the end
         if (mobOrganization != null) {
             didKillA = didKillA.append(Component.text("[").color(NamedTextColor.WHITE))
-                    .append(Component.text(mobOrganization.getName())).color(NamedTextColor.GOLD)
+                    .append(Component.text(mobOrganization.getName()).color(NamedTextColor.GOLD))
                     .append(Component.text("]").color(NamedTextColor.WHITE))
                     .appendSpace();
         }
@@ -54,7 +54,6 @@ public class MobDeathListener implements Listener {
         didKillA = didKillA.append(Component.text(entityName.toLowerCase()).color(NamedTextColor.RED));
 
         // Send the message
-        Bukkit.getLogger().info(didKillA.content());
         Audience.audience(Bukkit.getOnlinePlayers()).sendMessage(didKillA);
     }
 

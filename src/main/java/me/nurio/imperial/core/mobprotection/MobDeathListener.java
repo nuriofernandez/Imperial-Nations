@@ -34,20 +34,20 @@ public class MobDeathListener implements Listener {
         Organization mobOrganization = MobOrganizationStorage.mobOrganization(uniqueId);
 
         TextComponent didKillA = Component.text("[").color(NamedTextColor.WHITE)
-                .append(Component.text(playerOrganization.getName())).color(NamedTextColor.GOLD)
+                .append(Component.text(playerOrganization.getName()).color(NamedTextColor.GOLD))
                 .append(Component.text("]").color(NamedTextColor.WHITE))
                 .appendSpace()
                 .append(Component.text(player.getName()).color(NamedTextColor.WHITE))
                 .appendSpace()
                 .append(Component.text("killed").color(NamedTextColor.WHITE))
-                .appendSpace()
-                .append(Component.text(entityName.toLowerCase()).color(NamedTextColor.RED));
+                .appendSpace();
 
         // If org, add organization to the end
         if (mobOrganization != null) {
             didKillA = didKillA.append(Component.text("[").color(NamedTextColor.WHITE))
                     .append(Component.text(mobOrganization.getName())).color(NamedTextColor.GOLD)
-                    .append(Component.text("]").color(NamedTextColor.WHITE));
+                    .append(Component.text("]").color(NamedTextColor.WHITE))
+                    .appendSpace();
         }
 
         // Add entity name

@@ -2,7 +2,6 @@ package me.nurio.imperial.core;
 
 import com.samjakob.spigui.SpiGUI;
 import lombok.Getter;
-import me.nurio.imperial.core.menus.creation.InitialClaimListener;
 import me.nurio.imperial.core.areas.PlayerClaimListener;
 import me.nurio.imperial.core.chat.ChatListener;
 import me.nurio.imperial.core.mechanics.EndermanBlockListener;

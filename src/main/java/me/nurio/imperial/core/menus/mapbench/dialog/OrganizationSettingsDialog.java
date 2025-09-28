@@ -39,7 +39,8 @@ public class OrganizationSettingsDialog {
         final RegistryKeySet<Dialog> options = RegistrySet.keySet(
                 RegistryKey.DIALOG,
                 // Arbitrary keys of enchantments to store in the key set.
-                DialogKeys.create(Key.key(RenameOrganizationDialog.DIALOG_KEY))
+                DialogKeys.create(Key.key(RenameOrganizationDialog.DIALOG_KEY)),
+                DialogKeys.create(Key.key(LeaveOrganizationDialog.DIALOG_KEY))
         );
 
         var dialogConfig = RegistryEvents.DIALOG.compose().newHandler(event -> event.registry().register(

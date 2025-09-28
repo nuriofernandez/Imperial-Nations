@@ -78,12 +78,6 @@
             <version>16.0.1</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.samjakob</groupId>
-            <artifactId>SpiGUI</artifactId>
-            <version>v1.3.1</version>
-        </dependency>
-
     </dependencies>
 
     <build>

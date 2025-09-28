@@ -1,28 +1,15 @@
 package me.nurio.imperial.core.menus.mapbench;
 
-import io.papermc.paper.dialog.Dialog;
-import io.papermc.paper.registry.data.dialog.ActionButton;
-import io.papermc.paper.registry.data.dialog.DialogBase;
-import io.papermc.paper.registry.data.dialog.action.DialogAction;
-import io.papermc.paper.registry.data.dialog.input.DialogInput;
-import io.papermc.paper.registry.data.dialog.input.TextDialogInput;
-import io.papermc.paper.registry.data.dialog.type.DialogType;
 import me.nurio.imperial.core.Imperial;
-import me.nurio.imperial.core.menus.mapbench.operations.RenameOrganization;
+import me.nurio.imperial.core.menus.mapbench.dialog.RenameOrganizationDialog;
 import me.nurio.imperial.core.organizations.Organization;
 import me.nurio.imperial.core.organizations.OrganizationFactory;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.event.ClickCallback;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CartographyClickListener implements Listener {
 
@@ -53,7 +40,7 @@ public class CartographyClickListener implements Listener {
         }
 
         // Execute rename function
-        RenameOrganization.rename(player, organization);
+        RenameOrganizationDialog.show(player);
     }
 
 }

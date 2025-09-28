@@ -4,9 +4,12 @@ import io.papermc.paper.dialog.Dialog;
 import io.papermc.paper.registry.data.dialog.ActionButton;
 import io.papermc.paper.registry.data.dialog.DialogBase;
 import io.papermc.paper.registry.data.dialog.action.DialogAction;
+import io.papermc.paper.registry.data.dialog.body.DialogBody;
+import io.papermc.paper.registry.data.dialog.body.PlainMessageDialogBody;
 import io.papermc.paper.registry.data.dialog.input.DialogInput;
 import io.papermc.paper.registry.data.dialog.input.TextDialogInput;
 import io.papermc.paper.registry.data.dialog.type.DialogType;
+import io.papermc.paper.registry.set.RegistrySet;
 import me.nurio.imperial.core.menus.mapbench.OrganizationRenamedMessage;
 import me.nurio.imperial.core.organizations.Organization;
 import net.kyori.adventure.audience.Audience;
@@ -19,7 +22,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RenameOrganization {
+public class OrganizationSettings {
 
     static final String RENAME_INPUT_ID = "organization_name_input";
 
@@ -43,27 +46,17 @@ public class RenameOrganization {
                 ClickCallback.Options.builder().uses(1).lifetime(ClickCallback.DEFAULT_LIFETIME).build()
         );
 
-        Dialog dialog = Dialog.create(builder -> builder.empty()
-                .base(DialogBase.builder(Component.text("Empire settings"))
-                        .inputs(dialogInputs)
-                        .build())
-                .type(DialogType.confirmation(
-                        ActionButton.create(
-                                Component.text("Confirm", TextColor.color(0xAEFFC1)),
-                                Component.text("Click to confirm the new name."),
-                                100,
-                                organizationRenameAction
-                        ),
-                        ActionButton.create(
-                                Component.text("Discard", TextColor.color(0xFFA0B1)),
-                                Component.text("Click to discard your input."),
-                                100,
-                                null
-                        )
-                ))
+        List<DialogBody> pop = new ArrayList();
+        pop.add(DialogBody.plainMessage(Component.text("Subtitle")));
 
-        );
+//        RegistrySet<Dialog> re;
+//        Dialog dialog = Dialog.create(builder -> builder.empty()
+//                .base(DialogBase.builder(Component.text("Empire settings"))
+//                        .body(pop)
+//                        .build())
+//                .type(DialogType.dialogList(null))
+//        );
 
-        player.showDialog(dialog);
+//        player.showDialog(dialog);
     }
 }

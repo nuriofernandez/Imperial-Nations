@@ -8,4 +8,14 @@ load: POSTWORLD
 author: Nurio
 website: nurio.me
 prefix: Imperial
-depend: [ GrechAreas, GrechConfigPlugin ]
+
+dependencies:
+  server:
+    GrechAreas:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    GrechConfigPlugin:
+      load: BEFORE
+      required: true
+      join-classpath: true

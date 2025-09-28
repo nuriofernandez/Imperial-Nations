@@ -6,6 +6,7 @@ import me.nurio.imperial.core.organizations.OrganizationFactory;
 import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Bed;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -32,7 +33,8 @@ public class PlayerClaimListener implements Listener {
         }
 
         // If player is an outsider
-        Organization organization = organizationFactory.fromPlayer(eve.getPlayer());
+        Player player = eve.getPlayer();
+        Organization organization = organizationFactory.fromPlayer(player);
         if (organization == null) {
             return;
         }
@@ -50,11 +52,13 @@ public class PlayerClaimListener implements Listener {
 
         // Prevent creating two areas in the same place
         if (AreaCenterUtil.isCloseToAnyCenter(organization, location)) {
+            Bukkit.getLogger().warning(player.getName() + " >> unable to claim due to distance to center!");
             return;
         }
 
         // If there is any other org close by
         if (OrganizationDistance.isCloseToAnyOtherOrganization(organization, location)) {
+            Bukkit.getLogger().warning(player.getName() + " >> too close to another org!");
             return;
         }
 
@@ -62,7 +66,7 @@ public class PlayerClaimListener implements Listener {
         double stars = organization.getStars();
         int currentSize = organization.getWorldArea().getAreas().size();
         if (stars <= (double) currentSize) {
-            Bukkit.getLogger().warning("Tried to claim but not enough stars");
+            Bukkit.getLogger().warning(player.getName() + " >> tried to claim but not enough stars");
             return;
         }
 
